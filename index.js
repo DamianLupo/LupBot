@@ -2,7 +2,13 @@ const discord= require('discord.js'); ///llamamos la libreria de discord
 const { Client, Collection } = require('discord.js'); ///los eventos de discord
 const client = new Client({ intents: 53608447 }); ///Datos y eventos que mi bot de discord necesita 
 require('dotenv').config();
+const musicClient = require ("./Music/musicClient")
+musicClient(client);
 const {loadSlash} = require("./handlers/slashHandler")
+const { DisTube } = require("distube");
+const { YtDlpPlugin } = require("@distube/yt-dlp");
+
+client.slashCommands = new Collection()
 client.on("interactionCreate", async (interaction) => {
     if(!interaction.isCommand())return;               ///Si el usuario no utiliza / no se ejecuta el codigo
     const cmd = client.slashCommands.get(interaction.commandName);     ///Obtengo el comando
@@ -21,7 +27,7 @@ client.on("interactionCreate", async (interaction) => {
     }
     cmd.execute(client,interaction, args);  ///Ejecuto el comando
 });
-client.slashCommands = new Collection()
+
 
 
 client.once("ready", async ()=>{
